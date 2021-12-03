@@ -60,6 +60,52 @@ app.post("/", (req, res) => {
   console.log("RESPONSEEE:", req.body);
 });
 
+// app.get("/api/data", (req, res) => {
+//   let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id)`;
+//   console.log(query);
+//   db.query(query)
+//     .then(data => {
+//       const dataRows = data.rows;
+//       const listIds = [];
+//       const lists = {};
+
+//       dataRows.forEach(el => {
+//         const listId = el.list_id;
+//         const listTitle = el.title;
+//         if (!listIds.includes(listId)) {
+//           listIds.push(listId);
+//         };
+
+//         lists[listId] = {
+//           id: listId,
+//           title: listTitle,
+//           tasks: []
+//         };
+//       });
+//       dataRows.forEach(el => {
+//         const task = {
+//           id: el.id,
+//           content: el.content,
+//           list_id: el.list_id
+//         };
+//         lists[el.list_id].tasks.push(task);
+//       });
+//       const response = {lists, listIds}
+//       res.json({response});
+//     })
+// });
+
+// app.delete("/api/data/change/:id", (request, response) => {
+//   const deleteType = request.body;
+//   console.log("DELTE TYPE IS :", deleteType);
+//   db.query(`DELETE FROM task WHERE id = $1`, [
+//     request.params.id
+//   ]).then(() => {
+//     response.status(204).json({});
+//   })
+//   .catch(error => console.log(error));
+// });
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
