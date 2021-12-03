@@ -1,0 +1,22 @@
+DROP TABLE IF EXISTS list CASCADE;
+DROP TABLE IF EXISTS task CASCADE;
+
+
+-- CREATE TABLE users (
+--   id SERIAL PRIMARY KEY NOT NULL,
+--   first_name VARCHAR(255),
+--   last_name VARCHAR(255),
+--   email VARCHAR(255),
+--   password VARCHAR(255)
+-- );
+
+CREATE TABLE list (
+  id VARCHAR(255) PRIMARY KEY NOT NULL,
+  title VARCHAR(255)
+);
+
+CREATE TABLE task (
+  id VARCHAR(255) PRIMARY KEY NOT NULL,
+  content VARCHAR(255),
+  list_id VARCHAR(255) REFERENCES list(id) ON DELETE CASCADE
+);
