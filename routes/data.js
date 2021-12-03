@@ -20,7 +20,10 @@ module.exports = (db) => {
         dataRows.forEach(el => {
           const listId = el.list_id;
           const listTitle = el.title;
-          listIds.push(listId);
+          if (!listIds.includes(listId)) {
+            listIds.push(listId);
+          };
+
           lists[listId] = {
             id: listId,
             title: listTitle,
@@ -29,11 +32,15 @@ module.exports = (db) => {
         });
 
         dataRows.forEach(el => {
-          lists[el.list_id].tasks.push(el.content);
+          const task = {
+            id: el.id,
+            content: el.content
+          };
+          lists[el.list_id].tasks.push(task);
         });
 
         const response = {lists, listIds}
-        res.json({response});
+        res.json({response, dataRows});
       })
       .catch(err => {
         res
