@@ -10,7 +10,7 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM tasks`;
+    let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id);`;
     console.log(query);
     db.query(query)
       .then(data => {
@@ -24,23 +24,23 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/new", (req, res) => {
-    const newTask = req.body;
-    const newTaskStringified = JSON.stringify(newTask);
-    const queryValues = [`${newTaskStringified}`, 1];
-    let query = `INSERT INTO tasks (to_do, user_id)
-    VALUES ($1, $2)`;
-    console.log(query);
-    db.query(query, queryValues)
-      .then(() => {
-        res.json({ newTask });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
+  // router.post("/new", (req, res) => {
+  //   const newTask = req.body;
+  //   const newTaskStringified = JSON.stringify(newTask);
+  //   const queryValues = [`${newTaskStringified}`, 1];
+  //   let query = `INSERT INTO tasks (to_do, user_id)
+  //   VALUES ($1, $2)`;
+  //   console.log(query);
+  //   db.query(query, queryValues)
+  //     .then(() => {
+  //       res.json({ newTask });
+  //     })
+  //     .catch(err => {
+  //       res
+  //         .status(500)
+  //         .json({ error: err.message });
+  //     });
+  // });
   return router;
 };
 
