@@ -6,7 +6,6 @@ module.exports = (db) => {
   //get all lists and tasks
   router.get("/", (request, response) => {
     let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id)`;
-    console.log(query);
     db.query(query)
       .then(data => {
         const dataRows = data.rows;
@@ -26,6 +25,7 @@ module.exports = (db) => {
             tasks: []
           };
         });
+
         dataRows.forEach(el => {
           const task = {
             id: el.id,
@@ -41,7 +41,6 @@ module.exports = (db) => {
 
   router.post("/add", (request, response) => {
     const { title } = request.body;
-    console.log("Add is:", title);
     const firstQuery = `SELECT * FROM list ORDER BY id DESC LIMIT 1;`;
     db.query(firstQuery)
     .then((result) => {
@@ -64,12 +63,7 @@ module.exports = (db) => {
   });
 
   router.delete("/delete/:id", (request, response) => {
-    const type = request.body;
-    let query = '';
-
-    type === 'task' ?
-    query = `DELETE FROM task WHERE id = $1` :
-    query = `DELETE FROM list WHERE id = $1`
+    let query = 'DELETE FROM list WHERE id = $1';
 
     db.query(query, [
       request.params.id
