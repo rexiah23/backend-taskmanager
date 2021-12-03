@@ -1,7 +1,7 @@
 /*
  * All routes for Tasks are defined here
- * Since this file is loaded in server.js into api/tasks,
- *   these routes are mounted onto /tasks
+ * Since this file is loaded in server.js into api/data,
+ *   these routes are mounted onto /data
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
@@ -10,12 +10,30 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id);`;
+    let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id)`;
     console.log(query);
     db.query(query)
       .then(data => {
-        const tasks = data.rows;
-        res.json({ tasks });
+        const dataRows = data.rows;
+        const listIds = [];
+        const lists = {};
+        dataRows.forEach(el => {
+          const listId = el.list_id;
+          const listTitle = el.title;
+          listIds.push(listId);
+          lists[listId] = {
+            id: listId,
+            title: listTitle,
+            tasks: []
+          };
+        });
+
+        dataRows.forEach(el => {
+          lists[el.list_id].tasks.push(el.content);
+        });
+
+        const response = {lists, listIds}
+        res.json({response});
       })
       .catch(err => {
         res
@@ -28,7 +46,7 @@ module.exports = (db) => {
   //   const newTask = req.body;
   //   const newTaskStringified = JSON.stringify(newTask);
   //   const queryValues = [`${newTaskStringified}`, 1];
-  //   let query = `INSERT INTO tasks (to_do, user_id)
+  //   let query = `INSERT INTO dataRows (to_do, user_id)
   //   VALUES ($1, $2)`;
   //   console.log(query);
   //   db.query(query, queryValues)
