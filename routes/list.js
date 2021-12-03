@@ -46,12 +46,39 @@ module.exports = (db) => {
       })
   });
 
+  router.post("/add", (request, response) => {
+    // const { title, type, listId } = request.body.item;
+    // console.log("Add is:", request.body.item);
+    // let query = '';
+    // let args = [];
+    // if (type === 'task') {
+    //   query = `INSERT INTO task (id, content, list_id) VALUES ($1, $2, $3)`;
+    //   const newTaskId = `list-${parseInt(listId[listId.length-1]) + 1}`;
+    //   args = [title, type, listId]
+    // } else {
+    //   query = `INSERT INTO list (id, title) VALUES ($1, $2)`
+    //   const newListId = `list-${parseInt(listId[listId.length-1]) + 1}`;
+    //   args = [newListId, title]
+    // }
+    // // type === 'task' ?
+    // // query = `INSERT INTO list (id, title) VALUES ($1, $2)`
+
+
+    // const newListId = `list-${parseInt(listId[listId.length-1]) + 1}`;
+    // console.log("NEW LIST ID", newListId);
+    // const args = [title, type, newListId];
+    // db.query(query, args)
+    // .then(() => {
+    //   response.status(204).json({});
+    // })
+    // .catch(error => console.log(error));
+  });
+
   router.delete("/delete/:id", (request, response) => {
-    const deleteType = request.body;
-    console.log("DELTE TYPE IS :", deleteType);
+    const type = request.body;
     let query = '';
 
-    deleteType === 'task' ?
+    type === 'task' ?
     query = `DELETE FROM task WHERE id = $1` :
     query = `DELETE FROM list WHERE id = $1`
 
