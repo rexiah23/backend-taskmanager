@@ -45,18 +45,14 @@ module.exports = (db) => {
     db.query(firstQuery)
     .then((result) => {
       let newListId = '';
-      console.log("Latest list id is:", result.rows);
       //If there are no lists saved in database, set newListId as 'list-1'
       if (!result.rows[0]) {
-        console.log('entered first if')
         newListId = 'list-1';
       } else {
-        console.log('entered second if')
         const latestListId = result.rows[0].id;
         newListId = `list-${parseInt(latestListId[latestListId.length-1]) + 1}`;
       }
       const secondQuery = `INSERT INTO list(id, title) VALUES ($1, $2)`;
-      console.log('List id: ', newListId);
       const args = [newListId, title];
       db.query(secondQuery, args)
       .then(() => {

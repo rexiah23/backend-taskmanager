@@ -40,18 +40,6 @@ module.exports = (db) => {
       })
   });
 
-
-
-  // let newListId = '';
-  // //If there are no lists saved in database, set newListId as 'list-1'
-  // if (!result.rows[0]) {
-  //   newListId = 'list-1';
-  // } else {
-  //   const latestListId = result.rows[0].id;
-  //   newListId = `list-${parseInt(latestListId[latestListId.length-1]) + 1}`;
-  // }
-  // const secondQuery = `INSERT INTO list(id, title) VALUES ($1, $2)`;
-  // const args = [newListId, title];
   router.post("/add", (request, response) => {
     const { title:content, listId } = request.body;
     const firstQuery = `SELECT * FROM task ORDER BY id DESC LIMIT 1;`;
@@ -81,6 +69,16 @@ module.exports = (db) => {
     .catch(error => console.log(error));
   });
 
+  router.put("/change-list-container", (request, response) => {
+    const { newListId, taskId } = request.body;
+    const query = `UPDATE task SET list_id = $1 WHERE id = $2`;
+    const args = [newListId, taskId];
+    db.query(query, args)
+    .then((result) => {
+      response.status(204).json({})
+    })
+    .catch(error => console.log(error));
+  })
 
   router.delete("/delete/:id", (request, response) => {
     const query = `DELETE FROM task WHERE id = $1`
