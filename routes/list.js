@@ -68,6 +68,17 @@ module.exports = (db) => {
     .catch(error => console.log(error));
   });
 
+  router.put("/update-title", (request, response) => {
+    const { newTitle, listId } = request.body;
+    const query = `UPDATE list SET title = $1 WHERE id = $2`;
+    const args = [newTitle, listId];
+    db.query(query, args)
+    .then(() => {
+      response.status(204).json({})
+    })
+    .catch(error => console.log(error));
+  })
+
   router.delete("/delete/:id", (request, response) => {
     let query = 'DELETE FROM list WHERE id = $1';
 
