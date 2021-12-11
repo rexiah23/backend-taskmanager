@@ -6,7 +6,7 @@ const router  = express.Router();
 module.exports = (db) => {
   //get all tasks and lists
   router.get("/all", (request, response) => {
-    let query = `SELECT list.id as list_id, list.title as list_title, task.id as task_id, task.content as task_content FROM list LEFT JOIN task ON (task.list_id = list.id)`;
+    let query = `SELECT list.id as list_id, list.title as list_title, task.id as task_id, task.content as task_content FROM list LEFT JOIN task ON (task.list_id = list.id) ORDER BY list.id`;
     db.query(query)
       .then(data => {
         const dataRows = data.rows;
