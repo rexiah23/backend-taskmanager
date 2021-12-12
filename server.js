@@ -9,20 +9,15 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 
+// Require Cors middleware
+const cors = require('cors');
+
 // PG database client/connection setup
 const { Pool } = require("pg");
 const dbParams = require("./lib/db.js");
 const db = new Pool(dbParams);
 db.connect();
-// const db = new Pool({
-//   user:'qsoaremuliztwy',
-//   password: 'e8aad69764cb60f18364ea146395d411157ad13ba4ab59427e439fc63bfb5b67',
-//   database:'d8c06tvbob3n35',
-//   host: 'ec2-44-195-14-127.compute-1.amazonaws.com',
-//   port: '5432',
-//   ssl: { rejectUnauthorized: false }
-// });
-// db.connect();
+
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -31,6 +26,9 @@ app.use(morgan("dev"));
 // app.use(bodyParser.urlencoded({
 //   extended: true
 // }));
+
+//Enable all CORS requests
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

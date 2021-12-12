@@ -35,6 +35,8 @@ module.exports = (db) => {
           lists[el.list_id].tasks.push(task);
         });
         const refactoredData = {lists, listIds}
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Headers", "Originm X-Requested-With, Content-Type, Accept");
         response.json({refactoredData});
       })
   });
