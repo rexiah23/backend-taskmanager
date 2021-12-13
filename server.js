@@ -47,11 +47,13 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const listRoutes = require("./routes/list");
 const taskRoutes = require("./routes/task");
+const backgroundRoutes = require("./routes/background");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/list", listRoutes(db));
 app.use("/api/task", taskRoutes(db));
+app.use("/api/background", backgroundRoutes(db));
 
 // Note: mount other resources here, using the same pattern above
 

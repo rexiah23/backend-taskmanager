@@ -13,16 +13,9 @@ VALUES
   ('Shovel the driveway', 3);
 
 
+INSERT INTO background (url)
+VALUES
+  ('https://images.pexels.com/photos/1766838/pexels-photo-1766838.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260');
 
 
--- INSERT INTO list (id, title)
--- VALUES
---   ('list-1', 'ToDo'),
---   ('list-2', 'Doing');
-
--- INSERT INTO task (id, content, list_id)
--- VALUES
---   ('task-1', 'Pick up ingredients for dinner', 'list-1'),
---   ('task-2', 'Take the trash out', 'list-1'),
---   ('task-3', 'Walk the dog', 'list-2');
 

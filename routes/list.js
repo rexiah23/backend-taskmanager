@@ -3,41 +3,6 @@ const res = require('express/lib/response');
 const router  = express.Router();
 
 module.exports = (db) => {
-  //get all lists and tasks
-  // router.get("/", (request, response) => {
-  //   let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id)`;
-  //   db.query(query)
-  //     .then(data => {
-  //       const dataRows = data.rows;
-  //       const listIds = [];
-  //       const lists = {};
-
-  //       dataRows.forEach(el => {
-  //         const listId = el.list_id;
-  //         const listTitle = el.title;
-  //         if (!listIds.includes(listId)) {
-  //           listIds.push(listId);
-  //         };
-
-  //         lists[listId] = {
-  //           id: listId,
-  //           title: listTitle,
-  //           tasks: []
-  //         };
-  //       });
-
-  //       dataRows.forEach(el => {
-  //         const task = {
-  //           id: el.id,
-  //           content: el.content,
-  //           list_id: el.list_id
-  //         };
-  //         lists[el.list_id].tasks.push(task);
-  //       });
-  //       const refactoredData = {lists, listIds}
-  //       response.json({refactoredData});
-  //     })
-  // });
 
   router.post("/add", (request, response) => {
     const { title } = request.body;
