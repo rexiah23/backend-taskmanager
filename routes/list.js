@@ -4,68 +4,50 @@ const router  = express.Router();
 
 module.exports = (db) => {
   //get all lists and tasks
-  router.get("/", (request, response) => {
-    let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id)`;
-    db.query(query)
-      .then(data => {
-        const dataRows = data.rows;
-        const listIds = [];
-        const lists = {};
+  // router.get("/", (request, response) => {
+  //   let query = `SELECT * FROM list JOIN task ON (task.list_id = list.id)`;
+  //   db.query(query)
+  //     .then(data => {
+  //       const dataRows = data.rows;
+  //       const listIds = [];
+  //       const lists = {};
 
-        dataRows.forEach(el => {
-          const listId = el.list_id;
-          const listTitle = el.title;
-          if (!listIds.includes(listId)) {
-            listIds.push(listId);
-          };
+  //       dataRows.forEach(el => {
+  //         const listId = el.list_id;
+  //         const listTitle = el.title;
+  //         if (!listIds.includes(listId)) {
+  //           listIds.push(listId);
+  //         };
 
-          lists[listId] = {
-            id: listId,
-            title: listTitle,
-            tasks: []
-          };
-        });
+  //         lists[listId] = {
+  //           id: listId,
+  //           title: listTitle,
+  //           tasks: []
+  //         };
+  //       });
 
-        dataRows.forEach(el => {
-          const task = {
-            id: el.id,
-            content: el.content,
-            list_id: el.list_id
-          };
-          lists[el.list_id].tasks.push(task);
-        });
-        const refactoredData = {lists, listIds}
-        response.header("Access-Control-Allow-Origin", "*");
-        response.header("Access-Control-Allow-Headers", "Originm X-Requested-With, Content-Type, Accept");
-        response.json({refactoredData});
-      })
-  });
+  //       dataRows.forEach(el => {
+  //         const task = {
+  //           id: el.id,
+  //           content: el.content,
+  //           list_id: el.list_id
+  //         };
+  //         lists[el.list_id].tasks.push(task);
+  //       });
+  //       const refactoredData = {lists, listIds}
+  //       response.json({refactoredData});
+  //     })
+  // });
 
   router.post("/add", (request, response) => {
     const { title } = request.body;
-    const firstQuery = `SELECT * FROM list ORDER BY id DESC LIMIT 1;`;
-    db.query(firstQuery)
+    const query = 'INSERT INTO list(title) VALUES ($1) RETURNING id';
+    const args = [title];
+    db.query(query, args)
     .then((result) => {
-      let newListId = '';
-      //If there are no lists saved in database, set newListId as 'list-1'
-      if (!result.rows[0]) {
-        newListId = 'list-1';
-      } else {
-        const latestListId = result.rows[0].id;
-        newListId = `list-${parseInt(latestListId[latestListId.length-1]) + 1}`;
-      }
-      const secondQuery = `INSERT INTO list(id, title) VALUES ($1, $2)`;
-      const args = [newListId, title];
-      db.query(secondQuery, args)
-      .then(() => {
-        db.query(firstQuery)
-        .then(result => {
-          const insertedListValue = result.rows[0];
-          response.json({insertedListValue})
-        })
-        .catch(error => console.log(error));
-      })
-      .catch(error => console.log(error));
+      //Need to send this back to save in client side state
+      const insertedId = result.rows[0].id;
+      response.json({insertedId})
     })
     .catch(error => console.log(error));
   });
@@ -83,7 +65,7 @@ module.exports = (db) => {
 
   router.delete("/delete/:id", (request, response) => {
     let query = 'DELETE FROM list WHERE id = $1';
-
+    console.log('request Params Id: ', request.params.id);
     db.query(query, [
       request.params.id
     ]).then(() => {
