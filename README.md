@@ -1,4 +1,4 @@
-# DEPLOYED PROJECT LINK: https://taskmanager-lewislee.netlify.app/
+# Deployed Project Link: https://taskmanager-lewislee.netlify.app/
 
 # Backend repo for [task-manager project](https://github.com/rexiah23/task-manager)
 > Project by [Lewis Lee](https://github.com/rexiah23)
