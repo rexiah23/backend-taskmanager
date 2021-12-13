@@ -8,7 +8,6 @@ module.exports = (db) => {
     const query = `SELECT url FROM background`;
     db.query(query)
     .then(result => {
-      console.log('result:', result.rows[0])
       const url = result.rows[0]
       response.json({url})
     })
